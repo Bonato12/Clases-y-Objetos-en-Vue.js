@@ -1,7 +1,7 @@
 <template>
   <div id="app">
       <div>
-        <form v-if="this.show" @submit.prevent="postPeliculas()">
+        <form v-if="this.show" @submit.prevent="guardarLista()">
             <input type="text" v-model="pelicula.titulo">
             <input type="text" v-model="pelicula.año">
             <button type="submit">Guardar</button>
@@ -13,7 +13,14 @@
       <div>
         <li v-for="item in peliculas">
           <p> {{ item.title }}</p>
-          <button v-on:click="eliminarPelicula(item.id)">X</button>
+          <button v-on:click="eliminarPelicula(item)">X</button>
+        </li>
+      </div>
+      <div>
+        <li v-for="item in this.lista">
+          <p> {{ item.pelicula.titulo }}</p>
+          <p>{{item.año}}</p>
+          <button v-on:click="eliminarLista(item)">X</button>
         </li>
       </div>
   </div>
@@ -39,11 +46,12 @@ export default {
        pelicula : new Pelicula(),
        show: true,
        peliculas: [],
+       lista: []
     }
   },
   created(){
     //Funcion Exclusiva de Vue para cuando se carga la Pagina
-    this.getPeliculas();
+  //  this.getPeliculas();
   },
   mounted(){
 
@@ -83,6 +91,18 @@ export default {
       }
       )
 
+    },
+    guardarLista(){
+      var objeto = {
+        posicion: 1,
+        pelicula: this.pelicula
+      }
+      this.lista.push(objeto);
+      this.pelicula = new Pelicula();
+      console.log(this.lista);
+    },
+    eliminarLista(parametro){
+      console.log(parametro)
     }
     }
   }
