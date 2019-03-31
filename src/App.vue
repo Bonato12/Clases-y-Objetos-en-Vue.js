@@ -1,28 +1,42 @@
 <template>
   <div id="app">
-      <div>
+      <div style="float:left;">
         <form v-if="this.show" @submit.prevent="guardarLista()">
-            <input type="text" v-model="pelicula.titulo">
-            <input type="text" v-model="pelicula.año">
+          <div>
+            <h2>Cargar Pelicula</h2>
+          </div>
+          <div>
+            <p>Titulo</p>
+            <input required type="text" v-model="pelicula.titulo">
+          </div>
+          <br>
+          <div>
+            <p>Año</p>
+            <input required type="text" v-model="pelicula.año">
+          </div>
+          <br>
             <button type="submit">Guardar</button>
         </form>
       </div>
       <div>
-        <button v-on:click="getPeliculas()">Peliculas</button>
       </div>
-      <div>
-        <li v-for="item in peliculas">
-          <p> {{ item.title }}</p>
-          <button v-on:click="eliminarPelicula(item)">X</button>
-        </li>
-      </div>
-      <div>
-        <li v-for="item in this.lista">
-          <p> {{ item.pelicula.titulo }}</p>
-          <p>{{item.año}}</p>
-          <button v-on:click="eliminarLista(item)">X</button>
-        </li>
-      </div>
+      <div style="width:400px; float:right;">
+          <div>
+            <li v-for="item in peliculas">
+              <p> {{ item.title }}</p>
+              <button v-on:click="eliminarPelicula(item)">X</button>
+            </li>
+          </div>
+          <div>
+            <li v-for="item in this.lista">
+              <p> {{ item.pelicula.titulo }}</p>
+              <button v-on:click="eliminarLista(item)">X</button>
+            </li>
+          </div>
+        </div>
+      <!--
+      <button v-on:click="getPeliculas()">Peliculas</button>
+      -->
   </div>
 </template>
 
