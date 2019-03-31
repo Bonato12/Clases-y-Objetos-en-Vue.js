@@ -102,7 +102,11 @@ export default {
       console.log(this.lista);
     },
     eliminarLista(parametro){
-      console.log(parametro)
+      console.log(parametro);
+      var index = this.lista.indexOf(parametro);
+      if (index > -1) {
+          this.lista.splice(index, 1);
+      }
     }
     }
   }
