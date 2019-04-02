@@ -1,7 +1,7 @@
 <template>
   <div id="app">
       <div style="float:left;">
-        <form v-if="this.show" @submit.prevent="guardarLista()">
+        <form v-if="this.show" @submit.prevent="postPeliculas()">
           <div>
             <h2>Cargar Pelicula</h2>
           </div>
@@ -23,17 +23,19 @@
       <div style="width:400px; float:right;">
           <div>
             <li v-for="item in peliculas">
-              <p> {{ item.title }}</p>
+              <p> {{ item.titulo }}</p>
               <button v-on:click="eliminarPelicula(item)">X</button>
             </li>
           </div>
+          <!--
           <div>
             <li v-for="item in this.lista">
               <p> {{ item.pelicula.titulo }}</p>
               <button v-on:click="eliminarLista(item)">X</button>
             </li>
           </div>
-        </div>
+          -->
+      </div>
       <!--
       <button v-on:click="getPeliculas()">Peliculas</button>
       -->
@@ -66,9 +68,9 @@ export default {
   },
   created(){
     //Funcion Exclusiva de Vue para cuando se carga la Pagina
-  //  this.getPeliculas();
-    var elems = document.querySelectorAll('.collapsible');
-    var instances = M.Collapsible.init(elems, options);
+    this.getPeliculas();
+
+
   },
   mounted(){
 
@@ -80,25 +82,27 @@ export default {
     //Funcion Exclusiva de Vue para crear los Metodos o Funciones
     //Funcion de Axios para traer Informacion desde el Servidor
     getPeliculas(){
-      axios.get('https://api.themoviedb.org/3/discover/movie?api_key=1b62ccff88d2cd537027e1d82920197b&primary_release_date.gte=2018-05-15&primary_release_date.lte=2018-7-28').then((response)=>{
-          console.log(response.data.results);
-          this.peliculas = response.data.results;
+      axios.get('http://localhost:3000/peliculas').then((response)=>{
+          this.peliculas = response.data;
       }).then(alert("Carga Correcta"));
     },
     //Funcion de Axios para enviar informacion al Servidor
     postPeliculas(){
+      console.log(this.pelicula);
       if (this.pelicula.titulo && this.pelicula.año){
-        axios.post('https://api.themoviedb.org/3/discover/movie?api_key=1b62ccff88d2cd537027e1d82920197b&primary_release_date.gte=2018-05-15&primary_release_date.lte=2018-7-28',
+        axios.post('http://localhost:3000/peliculas',
         this.pelicula,
         { headers: {
-                  'Access-Control-Allow-Origin': 'http://localhost:3000/cliente',
-                  'Content-Type': 'application/json',
-                },
-         }
+                    'Access-Control-Allow-Origin': 'http://localhost:3000/peliculas',
+                    'Content-Type': 'application/json',
+                   },
+        }
         //URL,
         //DATOS,
         //HEADERS,
-        )
+      ).then(data=>{
+        this.getPeliculas();
+      })
       }
     },
     eliminarPelicula(id){
