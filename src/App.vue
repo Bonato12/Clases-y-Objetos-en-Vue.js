@@ -39,8 +39,9 @@
       -->
   </div>
 </template>
-
 <script>
+
+
 import axios from 'axios'
 
 //Definimos una Clase Pelicula con dos Atributos
@@ -66,6 +67,8 @@ export default {
   created(){
     //Funcion Exclusiva de Vue para cuando se carga la Pagina
   //  this.getPeliculas();
+    var elems = document.querySelectorAll('.collapsible');
+    var instances = M.Collapsible.init(elems, options);
   },
   mounted(){
 
