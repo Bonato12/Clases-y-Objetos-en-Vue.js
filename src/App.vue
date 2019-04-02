@@ -6,6 +6,10 @@
             <h2>Cargar Pelicula</h2>
           </div>
           <div>
+            <p>ID</p>
+            <input required type="text" v-model="pelicula.id">
+          </div>
+          <div>
             <p>Titulo</p>
             <input required type="text" v-model="pelicula.titulo">
           </div>
@@ -23,8 +27,9 @@
       <div style="width:400px; float:right;">
           <div>
             <li v-for="item in peliculas">
+              <p> {{ item.id }}</p>
               <p> {{ item.titulo }}</p>
-              <button v-on:click="eliminarPelicula(item)">X</button>
+              <button v-on:click="eliminarPelicula(item.id)">X</button>
             </li>
           </div>
           <!--
@@ -48,7 +53,8 @@ import axios from 'axios'
 
 //Definimos una Clase Pelicula con dos Atributos
 class Pelicula {
-  constructor(titulo,año){
+  constructor(id,titulo,año){
+    this.id = id;
     this.titulo = titulo;
     this.año = año;
   }
@@ -107,12 +113,13 @@ export default {
     },
     eliminarPelicula(id){
       //URL + ID
-      axios.delete('https://api.themoviedb.org/peliculas/accion/'+ id).then(response=>{
-          getPeliculas();
-      }
-      )
+      console.log(id);
+      axios.delete('http://localhost:3000/peliculas/'+ id).then(data=>{
+          this.getPeliculas();
+      })
 
-    },
+    }
+    /*
     guardarLista(){
       var objeto = {
         posicion: 1,
@@ -129,7 +136,9 @@ export default {
           this.lista.splice(index, 1);
       }
     }
-    }
+
+    */
+  }
   }
 </script>
 
